@@ -1,73 +1,27 @@
 package com.example.calculator
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
-private const val KEY_COUNTER = "counter"
+// https://www.figma.com/file/xkvarloxKITc59nVeQezuW/Neumorph-Calc?t=SmBdUmT9pnaaA1RF-0
 
 class MainActivity : AppCompatActivity() {
-
-    private var counter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (savedInstanceState != null) {
-            counter = savedInstanceState.getInt(KEY_COUNTER)
-        }
+        val expressionView = findViewById<TextView>(R.id.expression_view)
 
-        Log.v("delizarov", "on created ${hashCode()}")
-
-        with(findViewById<TextView>(R.id.tv)) {
-            text = counter.toString()
-
-            setOnClickListener {
-                ++counter
-
-                (it as TextView).text = counter.toString()
+        findViewById<KeyboardView>(R.id.keyboard).setOnKeyPressedListener { key ->
+            expressionView.text = when(key) {
+                KeyboardKey.Key1 -> "1"
+                KeyboardKey.Key2 -> "2"
+                KeyboardKey.Key3 -> "3"
+                KeyboardKey.Key4 -> "4"
             }
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        Log.v("delizarov", "on started ${hashCode()}")
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        Log.v("delizarov", "on resumed ${hashCode()}")
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        Log.v("delizarov", "on paused ${hashCode()}")
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        Log.v("delizarov", "on stop ${hashCode()}")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        Log.v("delizarov", "on destroyed ${hashCode()}")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        Log.v("delizarov", "on save instance state")
-
-        outState.putInt(KEY_COUNTER, counter)
-    }
 }
